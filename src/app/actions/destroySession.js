@@ -3,31 +3,21 @@ import { createSessionClient } from '@/config/appwrite';
 import { cookies } from 'next/headers';
 
 async function destroySession() {
-  // Retrieve the session cookie
-  const sessionCookie = cookies().get('appwrite-session');
+  const cookieStore = await cookies();
+  const sessionCookie = cookieStore.get('appwrite_session');
 
   if (!sessionCookie) {
-    return {
-      error: 'No session cookie found',
-    };
+    return { error: 'No session cookie found' };
   }
 
   try {
     const { account } = await createSessionClient(sessionCookie.value);
-
-    // Delete current session
     await account.deleteSession('current');
+    cookieStore.delete('appwrite_session');
 
-    // Clear session cookie
-    cookies().delete('appwrite-session');
-
-    return {
-      success: true,
-    };
+    return { success: true };
   } catch (error) {
-    return {
-      error: 'Error deleting session',
-    };
+    return { error: 'Error deleting session' };
   }
 }
 
