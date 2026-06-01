@@ -1,9 +1,9 @@
-"use client"
-import React, { useEffect, useActionState } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { toast } from 'react-toastify'
-import createUser from '../actions/createUser' 
+"use client";
+import React, { useEffect, useActionState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import createUser from "../actions/createUser";
 
 const Registerpage = () => {
   const [state, formAction] = useActionState(createUser, {});
@@ -14,95 +14,105 @@ const Registerpage = () => {
       toast.error(state.error);
     }
     if (state?.success) {
-      toast.success('Registration successful! Please login.');
-      router.push('/login'); 
+      toast.success("Registration successful! Please login.");
+      router.push("/login");
     }
   }, [state, router]);
 
   return (
-     <div className="flex items-center justify-center">
-        <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-sm mt-20">
-          <form action={formAction}>
-            <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-              Register
-            </h2>
-            
-            <div className="mb-4">
-              <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                className="border rounded w-full py-2 px-3 text-gray-800"
-                required
-              />
-            </div>
-
-            <div className="mb-4">
-              <label htmlFor="email" className="block text-gray-700 font-bold mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                className="border rounded w-full py-2 px-3 text-gray-800"
-                required
-              />
-            </div>
-
-            <div className="mb-4">
-              <label htmlFor="password" className="block text-gray-700 font-bold mb-2">
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                className="border rounded w-full py-2 px-3 text-gray-800"
-                required
-              />
-            </div>
-
-            <div className="mb-6">
-              <label htmlFor="confirm-password" className="block text-gray-700 font-bold mb-2">
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                id="confirm-password"
-                name="confirm-password"
-                className="border rounded w-full py-2 px-3 text-gray-800"
-                required
-              />
-            </div>
-
-            <div className="flex flex-col gap-5">
-              {state?.error && (
-                <div style={{color: 'red'}} className="text-sm text-red-500 font-semibold mb-2">
-                  {state.error}
-                </div>
-              )}
-
-              <button
-                type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 font-bold"
-              >
-                Register
-              </button>
-
-              <p className="text-sm text-gray-600 text-center">
-                Have an account?
-                <Link href="/login" className="text-blue-500 hover:underline ml-1">
-                  Login
-                </Link>
-              </p>
-            </div>
-          </form>
+    <div className="flex min-h- items-center justify-center px-4">
+      <div className="w-full max-w- rounded-2xl border border-zinc-200 bg-white p-7 shadow-sm">
+        <div className="mb-6 text-center">
+          <h1 className="text- font-semibold tracking-tight text-zinc-900">
+            Create account
+          </h1>
+          <p className="mt-1 text-sm text-zinc-500">Join Bookit in seconds</p>
         </div>
+
+        <form action={formAction} className="space-y-4">
+          <div>
+            <label
+              htmlFor="name"
+              className="mb-1.5 block text-sm font-medium text-zinc-700"
+            >
+              Name
+            </label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              required
+              className="w-full rounded-xl border border-zinc-300 bg-white px-3 py-2.5 text-sm text-zinc-900 outline-none transition focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="email"
+              className="mb-1.5 block text-sm font-medium text-zinc-700"
+            >
+              Email
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              className="w-full rounded-xl border border-zinc-300 bg-white px-3 py-2.5 text-sm text-zinc-900 outline-none transition focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="password"
+              className="mb-1.5 block text-sm font-medium text-zinc-700"
+            >
+              Password
+            </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              required
+              className="w-full rounded-xl border border-zinc-300 bg-white px-3 py-2.5 text-sm text-zinc-900 outline-none transition focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="confirm-password"
+              className="mb-1.5 block text-sm font-medium text-zinc-700"
+            >
+              Confirm Password
+            </label>
+            <input
+              id="confirm-password"
+              name="confirm-password"
+              type="password"
+              required
+              className="w-full rounded-xl border border-zinc-300 bg-white px-3 py-2.5 text-sm text-zinc-900 outline-none transition focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="mt-2 w-full rounded-xl bg-zinc-900 py-2.5 text-sm font-medium text-white transition hover:bg-black"
+          >
+            Create account
+          </button>
+        </form>
+
+        <p className="mt-6 text-center text-sm text-zinc-600">
+          Have an account?{" "}
+          <Link
+            href="/login"
+            className="font-medium text-zinc-900 hover:underline"
+          >
+            Login
+          </Link>
+        </p>
       </div>
+    </div>
   );
 };
 
