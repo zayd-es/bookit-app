@@ -1,4 +1,4 @@
-'use server';
+'use server'
 
 import { createSessionClient } from '@/config/appwrite';
 import { cookies } from 'next/headers';
@@ -9,7 +9,9 @@ import { revalidatePath } from 'next/cache';
 import checkRoomAvailability from './checkRoomAvailability';
 
 async function bookRoom(previousState, formData) {
-  const sessionCookie = cookies().get('appwrite-session');
+  const cookieStore = await cookies();
+  const sessionCookie = cookieStore.get('appwrite_session');
+
   if (!sessionCookie) {
     redirect('/login');
   }
@@ -17,9 +19,9 @@ async function bookRoom(previousState, formData) {
   try {
     const { databases } = await createSessionClient(sessionCookie.value);
 
-    const { user } = await checkAuth();
+    const { user, isAuthenticated } = await checkAuth();
 
-    if (!user) {
+    if (!isAuthenticated || !user) {
       return {
         error: 'You must be logged in to book a room',
       };
@@ -34,15 +36,11 @@ async function bookRoom(previousState, formData) {
     const checkInDateTime = `${checkInDate}T${checkInTime}`;
     const checkOutDateTime = `${checkOutDate}T${checkOutTime}`;
 
-    const isAvailable = await checkRoomAvailability(
-      roomId,
-      checkInDateTime,
-      checkOutDateTime
-    );
+    const isAvailable = await checkRoomAvailability(roomId, checkInDateTime, checkOutDateTime);
 
     if (!isAvailable) {
       return {
-        error: 'This room is already booked for the selected time',
+        error: 'The room is already booked for the selected dates. Please choose different dates.',
       };
     }
 
