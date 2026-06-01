@@ -9,9 +9,19 @@ const MyRoomsPage = async () => {
     <>
       <Heading title="My Rooms" />
       {rooms.length > 0 ? (
-        rooms.map((room) => <MyRoomCard key={room.$id} room={room} />)
+        <div className="mx-auto w-full max-w-6xl">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {rooms.map((r) => (
+              <MyRoomCard key={r.$id} room={r} />
+            ))}
+          </div>
+        </div>
       ) : (
-        <p>You have no room listings</p>
+        <div className="mx-auto w-full max-w-6xl">
+          <div className="rounded-xl border border-zinc-200 bg-white p-8 text-center shadow-sm">
+            <p className="text-sm text-zinc-500">You have no room listings</p>
+          </div>
+        </div>
       )}
     </>
   );

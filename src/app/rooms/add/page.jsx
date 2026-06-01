@@ -20,174 +20,69 @@ const page = () => {
     }
   }, [state]);
 
+  const inputClass = "block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 shadow-sm outline-none placeholder:text-zinc-400 focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900";
+  const labelClass = "block text-sm font-medium text-zinc-700 mb-1.5";
+
   return (
     <>
       <Heading title="Add Room" />
-      <div className="bg-white shadow-lg rounded-lg p-6 w-full">
-        <form action={formAction}>
-          <div className="mb-4">
-            <label
-              htmlFor="name"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Room Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              className="border rounded w-full py-2 px-3"
-              placeholder="Enter a name (Large Conference Room)"
-              required
-            />
+      <div className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
+        <form action={formAction} className="space-y-5">
+          <div>
+            <label htmlFor="name" className={labelClass}>Room Name</label>
+            <input type="text" id="name" name="name" className={inputClass} placeholder="Large Conference Room" required />
           </div>
-          <div className="mb-4">
-            <label
-              htmlFor="description"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Description
-            </label>
-            <textarea
-              id="description"
-              name="description"
-              className="border rounded w-full h-24 py-2 px-3"
-              placeholder="Enter a description for the room"
-              required
-            ></textarea>
+
+          <div>
+            <label htmlFor="description" className={labelClass}>Description</label>
+            <textarea id="description" name="description" className={`${inputClass} h-28 resize-none`} placeholder="Enter a description for the room" required />
           </div>
-          <div className="mb-4">
-            <label
-              htmlFor="sqft"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Square Feet
-            </label>
-            <input
-              type="number"
-              id="sqft"
-              name="sqft"
-              className="border rounded w-full py-2 px-3"
-              placeholder="Enter room size in ft"
-              required
-            />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label htmlFor="sqft" className={labelClass}>Square Feet</label>
+              <input type="number" id="sqft" name="sqft" className={inputClass} placeholder="500" required />
+            </div>
+            <div>
+              <label htmlFor="capacity" className={labelClass}>Capacity</label>
+              <input type="number" id="capacity" name="capacity" className={inputClass} placeholder="10" required />
+            </div>
           </div>
-          <div className="mb-4">
-            <label
-              htmlFor="capacity"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Capacity
-            </label>
-            <input
-              type="number"
-              id="capacity"
-              name="capacity"
-              className="border rounded w-full py-2 px-3"
-              placeholder="Number of people the room can hold"
-              required
-            />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label htmlFor="price_per_hour" className={labelClass}>Price Per Hour</label>
+              <input type="number" id="price_per_hour" name="price_per_hour" className={inputClass} placeholder="25" required />
+            </div>
+            <div>
+              <label htmlFor="availability" className={labelClass}>Availability</label>
+              <input type="text" id="availability" name="availability" className={inputClass} placeholder="Mon-Fri, 9am-5pm" required />
+            </div>
           </div>
-          <div className="mb-4">
-            <label
-              htmlFor="price_per_hour"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Price Per Hour
-            </label>
-            <input
-              type="number"
-              id="price_per_hour"
-              name="price_per_hour"
-              className="border rounded w-full py-2 px-3"
-              placeholder="Enter price per hour"
-              required
-            />
+
+          <div>
+            <label htmlFor="address" className={labelClass}>Address</label>
+            <input type="text" id="address" name="address" className={inputClass} placeholder="Enter full address" required />
           </div>
-          <div className="mb-4">
-            <label
-              htmlFor="address"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Address
-            </label>
-            <input
-              type="text"
-              id="address"
-              name="address"
-              className="border rounded w-full py-2 px-3"
-              placeholder="Enter full address"
-              required
-            />
+
+          <div>
+            <label htmlFor="location" className={labelClass}>Location</label>
+            <input type="text" id="location" name="location" className={inputClass} placeholder="Building, Floor, Room" required />
           </div>
-          <div className="mb-4">
-            <label
-              htmlFor="location"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Location
-            </label>
-            <input
-              type="text"
-              id="location"
-              name="location"
-              className="border rounded w-full py-2 px-3"
-              placeholder="Location (Building, Floor, Room)"
-              required
-            />
+
+          <div>
+            <label htmlFor="amenities" className={labelClass}>Amenities</label>
+            <input type="text" id="amenities" name="amenities" className={inputClass} placeholder="projector, whiteboard, wifi" required />
           </div>
-          <div className="mb-4">
-            <label
-              htmlFor="availability"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Availability
-            </label>
-            <input
-              type="text"
-              id="availability"
-              name="availability"
-              className="border rounded w-full py-2 px-3"
-              placeholder="Availability (Monday - Friday, 9am - 5pm)"
-              required
-            />
+
+          <div>
+            <label htmlFor="image" className={labelClass}>Image</label>
+            <input type="file" id="image" name="image" className="block w-full text-sm text-zinc-600 file:mr-4 file:rounded-md file:border-0 file:bg-zinc-100 file:px-3 file:py-1.5 file:text-sm file:font-medium hover:file:bg-zinc-200" />
           </div>
-          <div className="mb-4">
-            <label
-              htmlFor="amenities"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Amenities
-            </label>
-            <input
-              type="text"
-              id="amenities"
-              name="amenities"
-              className="border rounded w-full py-2 px-3"
-              placeholder="Amenities CSV (projector, whiteboard, etc.)"
-              required
-            />
-          </div>
-          <div className="mb-8">
-            <label
-              htmlFor="image"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Image
-            </label>
-            <input
-              type="file"
-              id="image"
-              name="image"
-              className="border rounded w-full py-2 px-3"
-            />
-          </div>
-          <div className="flex flex-col gap-5">
-            <button
-              type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
-            >
-              Save
+
+          <div className="pt-2">
+            <button type="submit" className="w-full rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:ring-offset-2">
+              Save Room
             </button>
           </div>
         </form>

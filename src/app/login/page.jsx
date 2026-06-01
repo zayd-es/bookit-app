@@ -1,30 +1,44 @@
 "use client"
-import React, { useEffect } from 'react'
+import React, { useEffect, useTransition } from 'react'
 import Link from 'next/link'
-import { useActionState } from 'react'
 import createSession from '../actions/createSession'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/context/authContext'
-const Loginpage = () => {
-  const [state, formAction] = useActionState(createSession, {});
-  const {isAuthenticated, setIsAuthenticated } = useAuth();
-  const router = useRouter()
-useEffect(() => {
-  if(state?.error){
-    toast.error(state.error)
-  }
-  if(state?.success){
-    toast.success(state.success);
-    setIsAuthenticated(true)
 
-    router.push("/")
-  }
-}, [state])
+const Loginpage = () => {
+  const [isPending, startTransition] = useTransition();
+  const { setIsAuthenticated } = useAuth();
+  const router = useRouter();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get('email')?.toString().trim();
+    const password = formData.get('password')?.toString().trim();
+
+    if (!email || !password) {
+      toast.error('Please fill out all fields');
+      return;
+    }
+
+    startTransition(async () => {
+      const state = await createSession({}, formData);
+      if (state?.error) {
+        toast.error(state.error);
+      }
+      if (state?.success) {
+        toast.success('Logged in successfully!');
+        setIsAuthenticated(true);
+        router.push('/');
+      }
+    });
+  };
+
   return (
     <div className="flex items-center justify-center">
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-sm mt-20">
-        <form action={formAction} className="flex flex-col">
+        <form onSubmit={handleSubmit} className="flex flex-col">
           <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
             Login
           </h2>
@@ -34,11 +48,10 @@ useEffect(() => {
               Email
             </label>
             <input
-              type="email"
+              type="text"
               id="email"
               name="email"
               className="border rounded w-full py-2 px-3"
-              required
             />
           </div>
 
@@ -51,24 +64,17 @@ useEffect(() => {
               id="password"
               name="password"
               className="border rounded w-full py-2 px-3"
-              required
             />
           </div>
 
-        <div className="flex flex-col gap-5">
- {state?.error && (
-  <div style={{color: 'red'}} className="text-sm mb-4">
-    {state.error}
-  </div>
-)}
-  <button
-    type="submit"
-    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
-  >
-    Login
-  </button>
-
-
+          <div className="flex flex-col gap-5">
+            <button
+              type="submit"
+              disabled={isPending}
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+            >
+              {isPending ? 'Logging in...' : 'Login'}
+            </button>
             <p>
               No account?
               <Link href="/register" className="text-blue-500">
@@ -79,7 +85,7 @@ useEffect(() => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Loginpage
+export default Loginpage;

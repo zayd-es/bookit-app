@@ -1,45 +1,51 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { FaMapMarkerAlt, FaUsers } from "react-icons/fa";
 
 const RoomCard = ({ room }) => {
   const bucketUrl = process.env.NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_ROOMS;
   const projectId = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID;
   const imageUrl = `https://cloud.appwrite.io/v1/storage/buckets/${bucketUrl}/files/${room.image}/view?project=${projectId}`;
-  const imgsrc = room.image ? imageUrl : "/images/no-image.jpg";
+  const imgsrc = room.image? imageUrl : "/images/no-image.jpg";
+
   return (
-    <div
-      key={room.$id}
-      className="bg-white shadow rounded-lg p-4 mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center"
-    >
-      <div className="flex flex-col sm:flex-row sm:space-x-4">
+    <div className="group overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition-all hover:shadow-md">
+      <div className="relative">
         <Image
-          width={128}
-          height={128}
+          width={600}
+          height={400}
           src={imgsrc}
           alt={room.name}
-          className="w-full sm:w-32 sm:h-32 mb-3 sm:mb-0 object-cover rounded-lg"
+          className="h-48 w-full object-cover transition-transform duration-300 group-hover:scale-[1.02] sm:h-52 lg:h-56"
         />
-        <div className="space-y-1">
-          <h4 className="text-lg font-semibold">{room.name}</h4>
-          <p className="text-sm text-gray-600">
-            <span className="font-semibold text-gray-800"> Address:</span>{" "}
-            {room.address}
-          </p>
-          <p className="text-sm text-gray-600">
-            <span className="font-semibold text-gray-800"> Availability:</span>
-            {room.availability}
-          </p>
-          <p className="text-sm text-gray-600">
-            <span className="font-semibold text-gray-800"> Price:</span>$
-            {room.price_per_hour}/hour
-          </p>
+        <div className="absolute right-3 top-3 rounded-full bg-white/90 px-3 py-1 text-sm font-semibold text-zinc-900 shadow-sm backdrop-blur">
+          ${room.price_per_hour}/h
         </div>
       </div>
-      <div className="flex flex-col sm:flex-row w-full sm:w-auto sm:space-x-2 mt-2 sm:mt-0">
+
+      <div className="p-5">
+        <h4 className="truncate text- font-semibold text-zinc-900">
+          {room.name}
+        </h4>
+
+        <div className="mt-1.5 flex items-center gap-1.5 text-sm text-zinc-500">
+          <FaMapMarkerAlt className="text-" />
+          <span className="truncate">{room.address}</span>
+        </div>
+
+        <div className="mt-3 flex items-center gap-4 text-sm text-zinc-600">
+          <div className="flex items-center gap-1.5">
+            <FaUsers className="text-zinc-400" />
+            <span>{room.capacity} people</span>
+          </div>
+          <span className="text-zinc-300">•</span>
+          <span className="truncate">{room.availability}</span>
+        </div>
+
         <Link
-          href={`rooms/${room.$id}`}
-          className="bg-blue-500 text-white px-4 py-2 rounded mb-2 sm:mb-0 w-full sm:w-auto text-center hover:bg-blue-700"
+          href={`/rooms/${room.$id}`}
+          className="mt-4 flex h-10 w-full items-center justify-center rounded-xl border border-zinc-300 bg-white text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50"
         >
           View Room
         </Link>
